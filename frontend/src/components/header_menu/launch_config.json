@@ -1,0 +1,16 @@
+{
+  "application": {
+    "type": "python",
+    "entry_point": "$EXERCISE_FOLDER/entry_point/ros2_humble/exercise.py",
+    "params": {
+      "circuit": "default"
+    }
+  },
+  "launch": {},
+  "exercise_id": "vacuum_cleaner_newmanager",
+  "world": "gazebo",
+  "resource_folders": "$EXERCISE_FOLDER/launch/ros2_humble",
+  "model_folders": "$CUSTOM_ROBOTS_FOLDER/roomba_robot/models",
+  "launch_file": "$EXERCISE_FOLDER/launch/ros2_humble/vacuum_cleaner.launch.py",
+  "visualization": "gazebo_rae"
+}

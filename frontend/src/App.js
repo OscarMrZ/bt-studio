@@ -63,12 +63,25 @@ const App = () => {
           </div>
         </Resizable>
 
-        <div style={{ flex: 1}}>
-          <DiagramEditor 
-            currentProjectname={currentProjectname}
-            setModelJson={setModelJson}
-            setProjectChanges={setProjectChanges}
-          />
+        <div>
+
+          <div>
+
+            <DiagramEditor 
+              currentProjectname={currentProjectname}
+              setModelJson={setModelJson}
+              setProjectChanges={setProjectChanges}
+            />
+            
+          </div>
+
+          <div>
+            <iframe
+              id={"iframe"}
+              src={"http://127.0.0.1:6080/vnc.html?resize=remote&autoconnect=true"}
+            />
+          </div>
+
         </div>
         
       </div>

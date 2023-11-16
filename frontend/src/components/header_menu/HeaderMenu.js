@@ -10,8 +10,13 @@ import './HeaderMenu.css'
 import add_project_img from './img/add_project.svg'
 import change_project_img from './img/change_project.svg'
 import save_project_img from './img/save_project.svg'
+import CommsManager from '../../libs/comms_manager';
 
 const HeaderMenu = ( {setCurrentProjectname, currentProjectname, modelJson, projectChanges, setProjectChanges} ) => {
+
+  const ramHost = "127.0.0.1";
+  const ramPort = 7163;
+  const commsManagerInstance = CommsManager(`ws://${ramHost}:${ramPort}`);
 
   const createProject = () => {
 
@@ -104,6 +109,18 @@ const HeaderMenu = ( {setCurrentProjectname, currentProjectname, modelJson, proj
     });
 
   };
+
+  const launchWorld = () => {
+    commsManagerInstance.connect().then(() => {
+      console.log("Conectados al RADI");
+      const jsonData = require('./launch_config.json');
+      console.log(jsonData);
+      commsManagerInstance.launch(jsonData);
+
+    }).catch((error) => {
+      console.error("Connection failed:", error);
+    });
+  };
   
   return (
     <AppBar position="static" sx={{ backgroundColor: '#12494c' }}>
@@ -126,6 +143,9 @@ const HeaderMenu = ( {setCurrentProjectname, currentProjectname, modelJson, proj
             <img className="header-icon" src={change_project_img}></img>
           </button>
           <button className="header-button" onClick={saveProject} title="Save project">
+            <img className="header-icon" src={save_project_img}></img>
+          </button>
+          <button className="header-button" onClick={launchWorld} title="Save project">
             <img className="header-icon" src={save_project_img}></img>
           </button>
         </div>
