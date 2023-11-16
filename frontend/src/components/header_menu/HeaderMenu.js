@@ -12,11 +12,8 @@ import change_project_img from './img/change_project.svg'
 import save_project_img from './img/save_project.svg'
 import CommsManager from '../../libs/comms_manager';
 
-const HeaderMenu = ( {setCurrentProjectname, currentProjectname, modelJson, projectChanges, setProjectChanges} ) => {
-
-  const ramHost = "127.0.0.1";
-  const ramPort = 7163;
-  const commsManagerInstance = CommsManager(`ws://${ramHost}:${ramPort}`);
+const HeaderMenu = ( {setCurrentProjectname, currentProjectname, modelJson, 
+                      projectChanges, setProjectChanges, commsManagerInstance} ) => {
 
   const createProject = () => {
 

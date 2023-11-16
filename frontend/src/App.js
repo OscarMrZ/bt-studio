@@ -1,11 +1,12 @@
 // App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Resizable } from 'react-resizable';
 import HeaderMenu from './components/header_menu/HeaderMenu';
 import FileBrowser from './components/file_browser/FileBrowser';
 import FileEditor from './components/file_editor/FileEditor';
 import './App.css';
 import DiagramEditor from './components/diagram_editor/DiagramEditor';
+import CommsManager from './libs/comms_manager';
 
 const App = () => {
 
@@ -25,6 +26,37 @@ const App = () => {
     }
   };
 
+  const ramHost = "127.0.0.1";
+  const ramPort = 7163;
+  const commsManagerInstance = CommsManager(`ws://${ramHost}:${ramPort}`);
+
+  const [gazeboEnabled, setGazeboEnabled] = useState(false);
+
+  useEffect(() => {
+
+    const callback = (message) => {
+      console.log("Hola me ejecuto!")
+      if (message.data.state === "ready") {
+        setGazeboEnabled(true);
+      }
+    };
+
+    console.log("He hecho la sub");
+
+    commsManagerInstance.subscribe(
+      [commsManagerInstance.events.STATE_CHANGED],
+      callback
+    );
+
+    return () => {
+      console.log("Return");
+      commsManagerInstance.unsubscribe(
+        [commsManagerInstance.events.STATE_CHANGED],
+        callback
+      );
+    };
+  }, []);
+
   return (
     <div className="App">
 
@@ -34,6 +66,7 @@ const App = () => {
         modelJson={modelJson}
         projectChanges={projectChanges}
         setProjectChanges={setProjectChanges}
+        commsManagerInstance={commsManagerInstance}
       />
 
       <div className="App-main" style={{ display: 'flex' }}>
@@ -52,7 +85,7 @@ const App = () => {
           height={0}
           onResize={(e, { size }) => onResize('editorWidth', size)}
           minConstraints={[400, 400]}
-          maxConstraints={[900, 900]}
+          maxConstraints={[800, 800]}
         >
           <div style={{ width: `${editorWidth}px` }}>
             <FileEditor 
@@ -63,7 +96,7 @@ const App = () => {
           </div>
         </Resizable>
 
-        <div>
+        <div style={{ flex: 1}}> 
 
           <div>
 
@@ -75,12 +108,20 @@ const App = () => {
             
           </div>
 
-          <div>
-            <iframe
-              id={"iframe"}
-              src={"http://127.0.0.1:6080/vnc.html?resize=remote&autoconnect=true"}
-            />
-          </div>
+          {gazeboEnabled ? (
+            <div className='iframe-container'>
+              <iframe
+                id={"iframe"}
+                src={"http://127.0.0.1:6080/vnc.html?resize=remote&autoconnect=true"}
+              />
+            </div>
+          ):
+          (
+            <div className='iframe-container'>
+              <h3>Loading simulation</h3>
+            </div>
+          )
+          }
 
         </div>
         
