@@ -5,6 +5,7 @@ urlpatterns = [
     path('create_project/', views.create_project, name='create_project'),
     path('save_project/', views.save_project, name='save_project'),
     path('get_project_graph/', views.get_project_graph, name='get_project_graph'),
+    path('get_manager_base64/', views.get_manager_base64, name='get_manager_base64'),
     path('get_simulation_zip_base64/', views.get_simulation_zip_base64, name='get_simulation_zip_base64'),
     path('get_project_list/', views.get_project_list, name='get_project_list'),
     path('get_file_list/', views.get_file_list, name='get_file_list'),

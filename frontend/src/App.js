@@ -30,12 +30,15 @@ const App = () => {
   const ramPort = 7163;
   const commsManagerInstance = CommsManager(`ws://${ramHost}:${ramPort}`);
 
+  const bt_manager_host = "127.0.0.1";
+  const bt_manager_port = 1905;
+  const commsBTManager = CommsManager(`ws://${bt_manager_host}:${bt_manager_port}`);
+
   const [gazeboEnabled, setGazeboEnabled] = useState(false);
 
   useEffect(() => {
 
     const callback = (message) => {
-      console.log("The callback was called");
       console.log(message.data.state);
       if (message.data.state === "ready") {
         setGazeboEnabled(true);
@@ -44,6 +47,11 @@ const App = () => {
 
     commsManagerInstance.subscribe(
       [commsManagerInstance.events.STATE_CHANGED],
+      callback
+    );
+
+    commsBTManager.subscribe(
+      [commsBTManager.events.STATE_CHANGED],
       callback
     );
   }, []);
@@ -58,6 +66,7 @@ const App = () => {
         projectChanges={projectChanges}
         setProjectChanges={setProjectChanges}
         commsManagerInstance={commsManagerInstance}
+        commsBTManager={commsBTManager}
       />
 
       <div className="App-main" style={{ display: 'flex' }}>

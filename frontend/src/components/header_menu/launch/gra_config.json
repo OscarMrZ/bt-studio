@@ -1,7 +1,7 @@
 {
   "application": {
     "type": "python",
-    "entry_point": "workspace/worlds/patata.py",
+    "entry_point": "workspace/worlds/bypass.py",
     "params": {
       "circuit": "default"
     }

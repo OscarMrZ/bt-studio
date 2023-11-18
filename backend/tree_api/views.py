@@ -108,11 +108,36 @@ def get_simulation_zip_base64(request):
         return Response({'success': False, 'message': 'Project name is required.'}, status=400)
 
     # Define the path to the simulation folder
-    simulation_folder = os.path.join(settings.BASE_DIR, 'filesystem', project_name, 'simulation')
+    simulation_folder = os.path.join(settings.BASE_DIR, 'filesystem', project_name, 'sim')
 
     # Check if the simulation folder exists
     if not os.path.exists(simulation_folder):
         return Response({'success': False, 'message': f'Simulation folder for project "{project_name}" not found.'}, status=404)
+
+    # Create a zip file in memory
+    in_memory_zip = BytesIO()
+    with zipfile.ZipFile(in_memory_zip, mode='w', compression=zipfile.ZIP_DEFLATED) as zipf:
+        for root, dirs, files in os.walk(simulation_folder):
+            for file in files:
+                file_path = os.path.join(root, file)
+                # Store the file under its name only, not including the 'simulation' folder in the path
+                zipf.write(file_path, os.path.relpath(file_path, simulation_folder))
+
+    # Encode the zip file in base64
+    in_memory_zip.seek(0)
+    encoded_zip = base64.b64encode(in_memory_zip.read()).decode()
+
+    return Response({'success': True, 'base64_zip': encoded_zip})
+
+@api_view(['GET'])
+def get_manager_base64(request):
+
+    # Define the path to the simulation folder
+    simulation_folder = os.path.join(settings.BASE_DIR, 'bt-manager')
+
+    # Check if the simulation folder exists
+    if not os.path.exists(simulation_folder):
+        return Response({'success': False, 'message': f'Manager folder not found'}, status=404)
 
     # Create a zip file in memory
     in_memory_zip = BytesIO()

@@ -55,6 +55,7 @@ const CommsManager = (address) => {
   };
 
   const dispatch = (message) => {
+    console.log(message);
     if (message.command === events.STATE_CHANGED) {
       currentState = message.data;
     }
