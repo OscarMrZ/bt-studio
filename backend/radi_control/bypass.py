@@ -6,6 +6,6 @@ class Exercise(CompatibilityExerciseWrapperRos2):
     def __init__(self, circuit: str, update_callback: Callable):
         current_path = os.path.dirname(__file__)
 
-        super(Exercise, self).__init__(exercise_command="/workspace/worlds/potato.py 0.0.0.0",
-                                       gui_command="/workspace/worlds/potato.py 0.0.0.0",
+        super(Exercise, self).__init__(exercise_command="/workspace/worlds/generic_controller.py 0.0.0.0",
+                                       gui_command="/workspace/worlds/generic_controller.py 0.0.0.0",
                                        update_callback=update_callback)
