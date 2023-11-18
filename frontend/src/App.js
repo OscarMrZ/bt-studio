@@ -35,26 +35,19 @@ const App = () => {
   useEffect(() => {
 
     const callback = (message) => {
-      console.log("Hola me ejecuto!")
+      console.log("The callback was called")
       if (message.data.state === "ready") {
         setGazeboEnabled(true);
       }
     };
-
-    console.log("He hecho la sub");
 
     commsManagerInstance.subscribe(
       [commsManagerInstance.events.STATE_CHANGED],
       callback
     );
 
-    return () => {
-      console.log("Return");
-      commsManagerInstance.unsubscribe(
-        [commsManagerInstance.events.STATE_CHANGED],
-        callback
-      );
-    };
+    console.log("Subscribe to state change!");
+
   }, []);
 
   return (

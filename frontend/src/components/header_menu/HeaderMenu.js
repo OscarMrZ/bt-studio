@@ -10,6 +10,7 @@ import './HeaderMenu.css'
 import add_project_img from './img/add_project.svg'
 import change_project_img from './img/change_project.svg'
 import save_project_img from './img/save_project.svg'
+
 import CommsManager from '../../libs/comms_manager';
 
 const HeaderMenu = ( {setCurrentProjectname, currentProjectname, modelJson, 
@@ -106,19 +107,40 @@ const HeaderMenu = ( {setCurrentProjectname, currentProjectname, modelJson,
     });
 
   };
-
+  
   const launchWorld = () => {
-    commsManagerInstance.connect().then(() => {
-      console.log("Conectados al RADI");
-      const jsonData = require('./launch_config.json');
-      console.log(jsonData);
-      commsManagerInstance.launch(jsonData);
 
+    commsManagerInstance.connect().then(() => {
+
+      console.log("RADI connection successful");
+  
+      // Make an API call to get the base64 zip file
+      axios.get('/tree_api/get_simulation_zip_base64/', { params: { project_name: currentProjectname } })
+        .then(response => {
+          if (response.data.success) {
+            const base64Zip = response.data.base64_zip;
+  
+            // Load the existing configuration
+            const jsonData = require('./launch/exercise_config.json');
+  
+            // Replace the launch_files value with the base64 string
+            // jsonData.launch_files = base64Zip;
+  
+            // console.log(jsonData);
+            commsManagerInstance.launch(jsonData);
+          } else {
+            console.error('Error fetching simulation zip:', response.data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error making API call:', error);
+        });
+  
     }).catch((error) => {
       console.error("Connection failed:", error);
     });
   };
-  
+
   return (
     <AppBar position="static" sx={{ backgroundColor: '#12494c' }}>
       <Toolbar>

@@ -46,7 +46,12 @@ h2 {
   font-size: 18px;
 }
 
-.iframe-container iframe {
+.iframe-container {
   width: 100%;
   height: 40vh;
+}
+
+.iframe-container iframe {
+  width: 100%;
+  height: 100%;
 }
