@@ -12,6 +12,6 @@
   "visualization": "gazebo_rae",
   "resource_folders": "",
   "model_folders": "",
-  "launch_file": "",
+  "launch_file": "workspace/worlds/other.launch.py",
   "launch_files": ""
 }

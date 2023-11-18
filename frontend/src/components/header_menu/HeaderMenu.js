@@ -140,6 +140,44 @@ const HeaderMenu = ( {setCurrentProjectname, currentProjectname, modelJson,
     });
   };
 
+  const testReset = () => {
+  
+    // Make an API call to get the base64 zip file
+    axios.get('/tree_api/get_simulation_zip_base64/', { params: { project_name: "demo" } })
+      .then(response => {
+        if (response.data.success) {
+          const base64Zip = response.data.base64_zip;
+  
+          // Load the existing configuration
+          const jsonData = require('./launch/gra_config.json');
+  
+          // Replace the launch_files value with the base64 string
+          jsonData.launch_files = base64Zip;
+  
+          console.log(jsonData);
+          commsManagerInstance.launch(jsonData);
+        } else {
+          console.error('Error fetching simulation zip:', response.data.message);
+        }
+        })
+      .catch(error => {
+        console.error('Error making API call:', error);
+      });
+  };
+
+  const testReset2 = () => {
+
+    const ramHost = "127.0.0.1";
+    const ramPort = 1905;
+    const commsManagerInstance = CommsManager(`ws://${ramHost}:${ramPort}`);
+
+    commsManagerInstance.connect().then(() => {
+      commsManagerInstance.run().then(() => {
+        console.log("Sent!");
+      })
+    })
+  }
+
   return (
     <AppBar position="static" sx={{ backgroundColor: '#12494c' }}>
       <Toolbar>
@@ -164,6 +202,9 @@ const HeaderMenu = ( {setCurrentProjectname, currentProjectname, modelJson,
             <img className="header-icon" src={save_project_img}></img>
           </button>
           <button className="header-button" onClick={launchWorld} title="Save project">
+            <img className="header-icon" src={save_project_img}></img>
+          </button>
+          <button className="header-button" onClick={testReset2} title="Save project">
             <img className="header-icon" src={save_project_img}></img>
           </button>
         </div>
