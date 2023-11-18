@@ -111,22 +111,21 @@ const HeaderMenu = ( {setCurrentProjectname, currentProjectname, modelJson,
   const launchWorld = () => {
 
     commsManagerInstance.connect().then(() => {
-
-      console.log("RADI connection successful");
+      console.log("Conectados al RADI");
   
       // Make an API call to get the base64 zip file
-      axios.get('/tree_api/get_simulation_zip_base64/', { params: { project_name: currentProjectname } })
+      axios.get('/tree_api/get_simulation_zip_base64/', { params: { project_name: "demo" } })
         .then(response => {
           if (response.data.success) {
             const base64Zip = response.data.base64_zip;
   
             // Load the existing configuration
-            const jsonData = require('./launch/exercise_config.json');
+            const jsonData = require('./launch/gra_config.json');
   
             // Replace the launch_files value with the base64 string
-            // jsonData.launch_files = base64Zip;
+            jsonData.launch_files = base64Zip;
   
-            // console.log(jsonData);
+            console.log(jsonData);
             commsManagerInstance.launch(jsonData);
           } else {
             console.error('Error fetching simulation zip:', response.data.message);

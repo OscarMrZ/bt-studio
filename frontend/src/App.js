@@ -35,7 +35,8 @@ const App = () => {
   useEffect(() => {
 
     const callback = (message) => {
-      console.log("The callback was called")
+      console.log("The callback was called");
+      console.log(message.data.state);
       if (message.data.state === "ready") {
         setGazeboEnabled(true);
       }
@@ -45,9 +46,6 @@ const App = () => {
       [commsManagerInstance.events.STATE_CHANGED],
       callback
     );
-
-    console.log("Subscribe to state change!");
-
   }, []);
 
   return (
