@@ -123,10 +123,11 @@ const HeaderMenu = ( {setCurrentProjectname, currentProjectname, modelJson,
   
             // Create launch config
             const jsonData = {
+              project_name: "demo",
               launch_files: base64Zip
             };
   
-            console.log(jsonData);
+            // console.log(jsonData);
             commsBTManager.launch(jsonData);
           } else {
             console.error('Error fetching simulation zip:', response.data.message);
@@ -160,7 +161,7 @@ const HeaderMenu = ( {setCurrentProjectname, currentProjectname, modelJson,
             // Replace the launch_files value with the base64 string
             jsonData.launch_files = base64Zip;
   
-            console.log(jsonData);
+            // console.log(jsonData);
             commsManagerInstance.launch(jsonData);
           } else {
             console.error('Error fetching simulation zip:', response.data.message);
